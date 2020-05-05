@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+</head>
+<style>
+    .bordered {
+        border: black 4px;
+        border-style: solid;
+    }
+
+    .controller-wrapper {
+        margin: 0 auto;
+        margin-top: 150px;
+        width: 200px;
+    }
+
+    .controller-wrapper input {
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        width: 200px;
+        box-sizing: border-box;
+        font-size: 22px;
+        color: white;
+        text-align: center;
+    }
+
+    .controller-wrapper input:focus {
+        outline: none;
+    }
+
+    .controller-wrapper input::-webkit-input-placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .st0,
+    .st1,
+    .st2,
+    .st3,
+    .st4 {
+        cursor: pointer;
+        stroke: #000;
+    }
+
+    .st0:hover,
+    .st1:hover,
+    .st1:hover,
+    .st2:hover,
+    .st3:hover,
+    .st4:hover {
+        fill: #C5403F;
+    }
+
+    .pic:hover img {
+        animation: moveSlideshow 3s linear;
+        animation-fill-mode: forwards;
+    }
+
+    .st0 {
+        fill: #f8d3c5;
+    }
+
+    .st1 {
+        fill: #daedbd;
+    }
+
+    .st2 {
+        fill: #c8bfe7;
+    }
+
+    .st3 {
+        fill: #89c7cd;
+    }
+
+    .st4 {
+        fill: #ffffba;
+    }
+</style>
+
+<body style='background-color: #ebebeb;'>
+    <div class="controller-wrapper" style='position:absolute; display: inline; z-index: 1;left:20px;top:40vh'>
+        <svg width="200px" id="Layer_1" viewBox="0 0 200 200">
+            <polygon display="none" id="o1" class="st0" points="200,0 150,50 50,50 0,0 " />
+            <polygon display="none" id="o2" class="st2" points="50,50 50,50 50,150 0,200 0,0 " />
+            <polygon display="none" id="o3" class="st3" points="200,0 200,200 150,150 150,50 150,50 " />
+            <polygon display="none" id="o4" class="st4" points="200,200 0,200 50,150 150,150 ">rsfr</polygon>
+            <rect id="o5" x="50" y="50" class="st1" width="100" height="100" onclick="open_neural()" />
+            <text x="99" y="110" text-anchor="middle" fill="black" font-size="30">Neural</text>
+        </svg>
+
+        <svg width="50px" id="Layer_1" viewBox="0 0 50 50">
+            <rect i x="50" y="50" width="50" height="50" onclick="open_neural()" />
+        </svg>
+
+    </div>
+    <div id='browser_div' style='width:100%; height:100vh; position: relative;'>
+        <iframe id='frame_browser' src="https://matchtv.ru/" width=100% height=100%></iframe>
+    </div>
+    <div class="container" style="width:100%;margin: 10px 10px 10px 10px;">
+        <div class="row">
+            <p> CURRENT VALUE: <bold id="curr_value">1</bold>
+            </p>
+        </div>
+    </div>
+    <div id='helper_div' style="width:100%;display:none;">
+        <div class="row" style='align-content: center;'>
+            <div id='obj6' class="col-sm-1" style="width:10%;background-color:#ebebeb">
+                <h3>6</h3>
+                <p>LEFT</p>
+            </div>
+            <div id='params_list'>
+
+            </div>
+
+            <div id='obj7' class="col-sm-1" style="width:10%;background-color:#ebebeb;">
+                <h3>7</h3>
+                <p>RIGHT</p>
+            </div>
+        </div>
+
+        <script>
+            //
+            var value = 0// Math.ceil(Math.random() * 5)
+            var dict_link = {
+                1: ['ЭФИР', 'https://matchtv.ru/on-air', '#f8d3c5'],
+                2: ['ТЕЛЕПРОГРАММА', 'https://matchtv.ru/tvguide', '#daedbd'],
+                3: ['НОВОСТИ', 'https://matchtv.ru/news', '#c8bfe7'],
+                4: ['ТРАНСЛЯЦИИ', 'https://matchtv.ru/live', '#89c7cd'],
+                5: ['ВИДЕО', 'https://matchtv.ru//video', '#ffffba']
+            }
+            var parameters = ''
+            var param_name_list = Object.keys(dict_link);
+            for (var i = 0; i < param_name_list.length; i++) {
+                parameters += '<div id="obj' + i + '" class="col-sm-1" style="width:16%;background-color:' + dict_link[param_name_list[i]][2] + '"' + " onclick=\"active(" + i + ",'" + dict_link[param_name_list[i]][1] + "')\"><h3>" + i + "</h3><p>" + dict_link[param_name_list[i]][0] + "</p></div>"
+            }
+
+
+            document.getElementById('params_list').innerHTML = parameters;
+
+
+            function open_neural() {
+                document.getElementById('helper_div').setAttribute('style', 'display:true;width:100%;text-align: center;');
+                document.getElementById('browser_div').setAttribute('style', 'width:100%; height:80vh; position: relative;');
+                document.getElementById('o1').setAttribute('display', 'true;');
+                document.getElementById('o2').setAttribute('display', 'true;');
+                document.getElementById('o3').setAttribute('display', 'true;');
+                document.getElementById('o4').setAttribute('display', 'true;');
+
+                //document.getElementById('frame_browser').setAttribute('style', 'display:none');
+            }
+
+            for (var i = 0; i < param_name_list.length; i++) {
+                document.getElementById("obj" + i).classList.remove('bordered')
+            }
+
+
+            function active(value, k) {
+
+                for (var i = 0; i < param_name_list.length; i++) {
+                    document.getElementById("obj" + i).classList.remove('bordered')
+                }
+
+                document.getElementById("curr_value").innerHTML = value;
+                document.getElementById("obj" + value).classList.add('bordered')
+                document.getElementById('frame_browser').setAttribute('src', k);
+                document.getElementById('frame_browser').location.reload();
+
+            }
+            //active(value, dict_link[value][1])
+
+            open_neural()
+            old_page = 122
+            const source = new EventSource("main/signal");
+            source.onmessage = function (event) {
+                if (event.data != old_page) {
+                    old_page = event.data
+                    active(event.data, dict_link[param_name_list[event.data]][1]);
+                }
+
+            }
+
+        </script>
+</body>
